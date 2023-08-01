@@ -22,7 +22,8 @@ def create_player_stats(row):
 # for each player in the batting table, parse it
 for row in all_team_batting:
     # find the data cell with player in it 
-    name_tag = row.find("td", {"data-stat": "player"})
-    if name_tag:
+    position = row.find("td", {"data-stat": "pos"})
+    if position != 'P' and position != None:
         # grab the name, games played and age. 
-       create_player_stats(row) 
+        print(row)
+        create_player_stats(row) 
