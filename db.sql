@@ -22,5 +22,7 @@ CREATE TABLE stat(
   stat_id INT AUTO_INCREMENT PRIMARY KEY,
   value double(16,4) DEFAULT NULL,
   player_id INT,
-  team_id INT
+  team_id INT,
+  stat_name varchar(255),
+  stat_abbrec varchar(255)
 );
