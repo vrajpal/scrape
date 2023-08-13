@@ -1,5 +1,12 @@
 from bs4 import BeautifulSoup
 import requests
+from dotenv import load_dotenv
+from sqlalchemy import create_engine
+
+
+load_dotenv()
+
+engine = create_engine(f'mysql+pymysql://{MYSQL_USER}:{}')
 
 page = requests.get('https://www.baseball-reference.com/teams/SEA/2023.shtml')
 soup = BeautifulSoup(page.content, 'lxml')
@@ -7,8 +14,8 @@ all_team_batting = soup.find("table", {"id": "team_batting"}).find_all('tr')
 # rows = all_team_batting.find_all('tr')
 # the headers for the batting table in Baseball Ref, remove player as its method for grabbing name is inconsistent 
 batting = {"age", "G", "AB", "R", "H", "2B", "3B", "HR", "RBI", "SB", 
-    "CS", "BB", "SO", "batting_avg", "onbase_perc", "slugging_perc", "onbase_plus_slugging", 
-    "onbase_plus_slugging_plus", "TB", "GIDP", "HBP", "SH", "SF", "IBB"}
+           "CS", "BB", "SO", "batting_avg", "onbase_perc", "slugging_perc", "onbase_plus_slugging", 
+           "onbase_plus_slugging_plus", "TB", "GIDP", "HBP", "SH", "SF", "IBB"}
 
 def create_player_stats(row):
     player_row = {}
@@ -25,5 +32,4 @@ for row in all_team_batting:
     position = row.find("td", {"data-stat": "pos"})
     if position != 'P' and position != None:
         # grab the name, games played and age. 
-        print(row)
         create_player_stats(row) 
