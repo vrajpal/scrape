@@ -24,5 +24,5 @@ CREATE TABLE stat(
   player_id INT,
   team_id INT,
   stat_name varchar(255),
-  stat_abbrec varchar(255)
+  stat_abbrev varchar(255)
 );
