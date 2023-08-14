@@ -1,12 +1,21 @@
 from bs4 import BeautifulSoup
 import requests
 from dotenv import load_dotenv
+from dotenv import dotenv_values
 from sqlalchemy import create_engine
+from sqlalchemy import text
 
 
-load_dotenv()
+config = dotenv_values(".env") 
+print(config)
+print(config["MYSQL_USER"])
+engine = create_engine(f"mysql+pymysql://{config['MYSQL_USER']}:{config['MYSQL_PASSWORD']}@{config['MYSQL_HOST']}:{config['MYSQL_PORT']}/scrape_mlb")
 
-engine = create_engine(f'mysql+pymysql://{MYSQL_USER}:{}')
+with engine.connect() as connection:
+    result = connection.execute(text("select * from stat"))
+    for row in result:
+        print(row)
+
 
 page = requests.get('https://www.baseball-reference.com/teams/SEA/2023.shtml')
 soup = BeautifulSoup(page.content, 'lxml')
@@ -23,8 +32,8 @@ def create_player_stats(row):
     for stat in batting:
         value = row.find("td", {"data-stat": stat}).contents
         player_row[stat] = value
-    print(name)
-    print(player_row)
+    # print(name)
+    # print(player_row)
 
 # for each player in the batting table, parse it
 for row in all_team_batting:
