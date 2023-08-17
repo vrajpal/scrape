@@ -1,6 +1,5 @@
 from bs4 import BeautifulSoup
 import requests
-from dotenv import load_dotenv
 from dotenv import dotenv_values
 from sqlalchemy import create_engine
 from sqlalchemy import text
@@ -33,12 +32,21 @@ def create_player_stats(row):
         value = row.find("td", {"data-stat": stat}).contents
         player_row[stat] = value
     print(name)
-    print(player_row)
+    #print(player_row)
 
 # for each player in the batting table, parse it
 for row in all_team_batting:
     # find the data cell with player in it 
-    position = row.find("td", {"data-stat": "pos"})
+    positionRow = row.find("td", {"data-stat": "pos"})
+    if(positionRow.contents[0].text):
+        position = positionRow.contents[0].text
+    else: 
+        position = None
     if position != 'P' and position != None:
-        # grab the name, games played and age. 
+        print("Position: ")
+        print(position)
+        print(row)
         create_player_stats(row) 
+
+
+# printStat()
