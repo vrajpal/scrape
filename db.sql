@@ -9,7 +9,8 @@ CREATE TABLE player(
   first_name varchar(255),
   last_name varchar(255),
   age INT,
-  team_id INT
+  team_id INT,
+  position INT
 ); 
 
 CREATE TABLE team(

@@ -4,27 +4,35 @@ from dotenv import dotenv_values
 from sqlalchemy import create_engine
 from sqlalchemy import text
 
-
+# read mysql config (dev is local mysql on pc)
 config = dotenv_values(".env") 
+# print out config to verify
 print(config)
+# create connection to mysql using pymysql driver (dev is local pc)
 engine = create_engine(f"mysql+pymysql://{config['MYSQL_USER']}:{config['MYSQL_PASSWORD']}@{config['MYSQL_HOST']}:{config['MYSQL_PORT']}/scrape_mlb")
 
+# test function to verify connection to db
 def printStat():
     with engine.connect() as connection:
         result = connection.execute(text("select * from stat"))
         for row in result:
             print(row)
 
-
+# grab html of the mariners season page
 page = requests.get('https://www.baseball-reference.com/teams/SEA/2023.shtml')
+# convert html into bs objects
 soup = BeautifulSoup(page.content, 'lxml')
-all_team_batting = soup.find("table", {"id": "team_batting"}).find_all('tr')
-# rows = all_team_batting.find_all('tr')
+# grab table with hitting stats
+all_team_batting = soup.find("table", {"id": "team_batting"})
+tbody = all_team_batting.find("tbody")
+rows = tbody.find_all('tr')
+
 # the headers for the batting table in Baseball Ref, remove player as its method for grabbing name is inconsistent 
 batting = {"age", "G", "AB", "R", "H", "2B", "3B", "HR", "RBI", "SB", 
            "CS", "BB", "SO", "batting_avg", "onbase_perc", "slugging_perc", "onbase_plus_slugging", 
            "onbase_plus_slugging_plus", "TB", "GIDP", "HBP", "SH", "SF", "IBB"}
 
+# given a row in the hitting table, find each batting stat and save to a dictionary
 def create_player_stats(row):
     player_row = {}
     name = row.find("td", {"data-stat": "player"}).contents[0].text
@@ -32,21 +40,19 @@ def create_player_stats(row):
         value = row.find("td", {"data-stat": stat}).contents
         player_row[stat] = value
     print(name)
-    #print(player_row)
+    print(player_row)
 
 # for each player in the batting table, parse it
-for row in all_team_batting:
+for row in rows:
     # find the data cell with player in it 
     positionRow = row.find("td", {"data-stat": "pos"})
-    if(positionRow.contents[0].text):
+    if(positionRow != None):
         position = positionRow.contents[0].text
-    else: 
-        position = None
-    if position != 'P' and position != None:
-        print("Position: ")
-        print(position)
-        print(row)
-        create_player_stats(row) 
+        # if the player is not a pitcher, process it
+        if position != 'P' and position != None:
+            print("Position: ")
+            print(position)
+            create_player_stats(row) 
 
 
 # printStat()
