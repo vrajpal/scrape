@@ -1,25 +1,12 @@
 from bs4 import BeautifulSoup
 import requests
+from utils import convertPositionToEnum
 from dotenv import dotenv_values
-from sqlalchemy import create_engine
-from sqlalchemy import text
 
-# read mysql config (dev is local mysql on pc)
 config = dotenv_values(".env") 
-# print out config to verify
-print(config)
-# create connection to mysql using pymysql driver (dev is local pc)
-engine = create_engine(f"mysql+pymysql://{config['MYSQL_USER']}:{config['MYSQL_PASSWORD']}@{config['MYSQL_HOST']}:{config['MYSQL_PORT']}/scrape_mlb")
-
-# test function to verify connection to db
-def printStat():
-    with engine.connect() as connection:
-        result = connection.execute(text("select * from stat"))
-        for row in result:
-            print(row)
 
 # grab html of the mariners season page
-page = requests.get('https://www.baseball-reference.com/teams/SEA/2023.shtml')
+page = requests.get(f"https://www.baseball-reference.com/teams/SEA/{config['SEASON_YEAR']}.shtml")
 # convert html into bs objects
 soup = BeautifulSoup(page.content, 'lxml')
 # grab table with hitting stats
@@ -40,6 +27,8 @@ def create_player_stats(row):
         value = row.find("td", {"data-stat": stat}).contents
         player_row[stat] = value
     print(name)
+    # separate the name into first name last name
+    #  
     print(player_row)
 
 # for each player in the batting table, parse it
