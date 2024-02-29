@@ -5,8 +5,10 @@ from dotenv import dotenv_values
 
 config = dotenv_values(".env") 
 
+print(config['SEASON_YEAR'])
 # grab html of the mariners season page
 page = requests.get(f"https://www.baseball-reference.com/teams/SEA/{config['SEASON_YEAR']}.shtml")
+
 # convert html into bs objects
 soup = BeautifulSoup(page.content, 'lxml')
 # grab table with hitting stats
