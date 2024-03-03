@@ -13,5 +13,19 @@ page = requests.get("https://www.baseball-reference.com/teams/")
 soup = BeautifulSoup(page.content, "lxml")
 
 all_active_teams = soup.find("table", {"id": "teams_active"})
+table_body = all_active_teams.find("tbody")
+team_headers = table_body.find_all("th", class_="right")
+rows = [th.find_parent("tr") for th in team_headers]
+if rows != None:
+    for row in rows:
+        print("========================")
+        print(row.prettify())
+        print("========================")
 
-print(all_active_teams)
+
+# if all_active_teams != None:
+#    prettyTeams = all_active_teams.prettify()
+# else:
+#    prettyTeams = all_active_teams
+
+#print(prettyTeams)
