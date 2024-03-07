@@ -18,9 +18,13 @@ team_headers = table_body.find_all("th", class_="right")
 rows = [th.find_parent("tr") for th in team_headers]
 if rows != None:
     for row in rows:
-        print("========================")
-        print(row.prettify())
-        print("========================")
+        # print("========================")
+        # print(row.prettify())
+        # print("========================")
+        cols = row.find_all('td')
+        for col in cols:
+            print(col['data-stat'])
+            print(col.text)
 
 
 # if all_active_teams != None:
