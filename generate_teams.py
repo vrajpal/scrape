@@ -4,6 +4,7 @@
 import requests
 from bs4 import BeautifulSoup
 from dotenv import dotenv_values
+from Team import Team
 
 config = dotenv_values(".env") 
 
@@ -18,18 +19,18 @@ team_headers = table_body.find_all("th", class_="right")
 rows = [th.find_parent("tr") for th in team_headers]
 if rows != None:
     for row in rows:
-        # print("========================")
-        # print(row.prettify())
-        # print("========================")
         cols = row.find_all('td')
         for col in cols:
-            print(col['data-stat'])
-            print(col.text)
-
-
-# if all_active_teams != None:
-#    prettyTeams = all_active_teams.prettify()
-# else:
-#    prettyTeams = all_active_teams
-
-#print(prettyTeams)
+            col_name = col['data-stat']
+            col_value = col.text
+            if col_name == 'franchise_name':
+                franchise_vals = col_value.split()
+                if franchise_vals != None:
+                    if len(franchise_vals) == 3:
+                        franchise_location = franchise_vals[0] + " " + franchise_vals[1]
+                        franchise_name = franchise_vals[2]
+                    else: 
+                        franchise_location = franchise_vals[0]
+                        franchise_name = franchise_vals[1]
+                    team = Team(franchise_name, franchise_location)
+                    team.print_team()
