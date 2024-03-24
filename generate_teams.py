@@ -2,6 +2,7 @@
 # A script that populates the team table in scrape_mlb
 
 import requests
+import sqlalchemy
 from bs4 import BeautifulSoup
 from dotenv import dotenv_values
 from Team import Team
