@@ -2,7 +2,7 @@
 # A script that populates the team table in scrape_mlb
 
 import requests
-import sqlalchemy
+from TeamController import TeamController
 from bs4 import BeautifulSoup
 from dotenv import dotenv_values
 from Team import Team
@@ -13,7 +13,7 @@ config = dotenv_values(".env")
 page = requests.get("https://www.baseball-reference.com/teams/")
 
 soup = BeautifulSoup(page.content, "lxml")
-
+team_controller = TeamController()
 all_active_teams = soup.find("table", {"id": "teams_active"})
 table_body = all_active_teams.find("tbody")
 team_headers = table_body.find_all("th", class_="right")
@@ -34,4 +34,4 @@ if rows != None:
                         franchise_location = franchise_vals[0]
                         franchise_name = franchise_vals[1]
                     team = Team(franchise_name, franchise_location)
-                    team.print_team()
+                    team_controller.create_team(team)
