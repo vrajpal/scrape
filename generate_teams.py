@@ -5,7 +5,7 @@ import requests
 from TeamController import TeamController
 from bs4 import BeautifulSoup
 from dotenv import dotenv_values
-from Team import Team
+from models.Team import Team
 
 config = dotenv_values(".env") 
 
