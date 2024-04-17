@@ -1,7 +1,7 @@
 from typing import List
 from typing import Optional
 
-from sqlalchemy import String
+from sqlalchemy import String, create_engine
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.ext.declarative import declarative_base
@@ -11,7 +11,7 @@ from dotenv import dotenv_values
 
 
 config = dotenv_values(".env") 
-engine = create_engine(f"mysql+pymysql://{config['MYSQL_USER']}:{config['MYSQL_PASSWORD']}@{config['MYSQL_HOST']}:{config['MYSQL_PORT']}/scrape_mlb")
+engine = create_engine(f"mysql+pymysql://{config['MYSQL_USERNAME']}:{config['MYSQL_PASSWORD']}@{config['MYSQL_HOST']}:{config['MYSQL_PORT']}/scrape_mlb")
 
 Base = declarative_base()
 
