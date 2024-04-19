@@ -19,11 +19,12 @@ class TeamController:
 
     def create_team(self, new_team):
         print(new_team)
+        print(self.engine.raw_connection())
         if new_team != None:
             try:
                 with self.engine.connect() as connection:
                     # result = connection.execute(text("select * from team;"))
-                    statement = insert(team).values(name=new_team.franchise_name, location=new_team.location)
+                    statement = insert(new_team).values(name=new_team.franchise_name, location=new_team.location)
                     print(statement)
                     compiled = statement.compile()
                     # print(f"""INSERT INTO team (name, location) VALUES ("{team.franchise_name}", "{team.location}");""")
