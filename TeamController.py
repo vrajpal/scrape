@@ -1,35 +1,21 @@
+from os import name
 from sqlalchemy import create_engine, text, insert
 from dotenv import dotenv_values
+
+from db import Session
+from models import Team
 
 
 class TeamController:
 
-    def __init__(self) -> None:
-        self.config = dotenv_values(".env")
-        connection_string = f"""mysql+pymysql://{self.config['MYSQL_USERNAME']}:{self.config['MYSQL_PASSWORD']}@{self.config['MYSQL_HOST']}:{self.config['MYSQL_PORT']}/{self.config['DATABASE_NAME']}"""
-        print(connection_string)
-        self.engine = create_engine(connection_string)
-
-    def print_config(self):
-        print(self.config)
+    def __init__(self, team) -> None:
+        self.team = team
+        self.session = Session()
+        print("Team Controller")
 
     # Create Team (Team)
     # Get Team (Team)
     # Delete Team (Team)
 
-    def create_team(self, new_team):
-        print(new_team)
-        print(self.engine.raw_connection())
-        if new_team != None:
-            try:
-                with self.engine.connect() as connection:
-                    # result = connection.execute(text("select * from team;"))
-                    statement = insert(new_team).values(name=new_team.franchise_name, location=new_team.location)
-                    print(statement)
-                    compiled = statement.compile()
-                    # print(f"""INSERT INTO team (name, location) VALUES ("{team.franchise_name}", "{team.location}");""")
-                    # result = connection.execute(text(f"INSERT INTO team (name, location) VALUES '{team.franchise_name}', '{team.location}';"))
-                    result = connection.execute(statement)
-                    print(result)
-            except:
-                print("Something failed...")
+    def create_team(self):
+        new_team = Team(name=self.team.name, franchise_location=self.team.franchise_location)
