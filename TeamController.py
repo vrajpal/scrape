@@ -8,8 +8,7 @@ from models import Team
 
 class TeamController:
 
-    def __init__(self, team) -> None:
-        self.team = team
+    def __init__(self) -> None:
         self.session = Session()
         print("Team Controller")
 
@@ -17,5 +16,6 @@ class TeamController:
     # Get Team (Team)
     # Delete Team (Team)
 
-    def create_team(self):
-        new_team = Team(name=self.team.name, franchise_location=self.team.franchise_location)
+    def create_team(self, team):
+        new_team = Team.Team(team.franchise_name, team.location)
+        print(new_team.__str__())
