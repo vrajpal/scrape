@@ -2,20 +2,21 @@ from os import name
 from sqlalchemy import create_engine, text, insert
 from dotenv import dotenv_values
 
-from db import Session
 from models import Team
 
 
 class TeamController:
 
-    def __init__(self) -> None:
-        self.session = Session()
+    def __init__(self, session) -> None:
+        self.session = session
         print("Team Controller")
-
-    # Create Team (Team)
-    # Get Team (Team)
-    # Delete Team (Team)
+    
+    def db_insert(self, team):
+        with self.session as session:
+            if team != None:
+                session.add(team)
+                session.commit()
 
     def create_team(self, team):
-        new_team = Team.Team(team.franchise_name, team.location)
-        print(new_team.__str__())
+        self.db_insert(team) 
+        print(team.__tablename__)
