@@ -1,10 +1,3 @@
-from os import name
-from sqlalchemy import create_engine, text, insert
-from dotenv import dotenv_values
-
-from models import Team
-
-
 class TeamController:
 
     def __init__(self, session) -> None:
