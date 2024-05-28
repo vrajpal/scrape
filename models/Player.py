@@ -2,6 +2,7 @@ from sqlalchemy import String
 from sqlalchemy import Integer
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
+from sqlalchemy import ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 
 from db import Base
