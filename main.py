@@ -1,9 +1,14 @@
 from bs4 import BeautifulSoup
 import requests
-from utils import convertPositionToEnum
 from dotenv import dotenv_values
+from models.Player import Player
+from PlayerController import PlayerController
+from db import Session
+
+session = Session()
 
 config = dotenv_values(".env") 
+player_controller = PlayerController(session)
 
 print(config['SEASON_YEAR'])
 # grab html of the mariners season page
@@ -29,9 +34,13 @@ def create_player_stats(row):
         value = row.find("td", {"data-stat": stat}).contents
         player_row[stat] = value
     print(name)
-    # separate the name into first name last name
-    #  
-    print(player_row)
+    name_holder = name.split()
+    age = row.find("td", {"data-stat": "age"}).contents 
+    position = positionRow.contents[0].text
+    if name_holder:
+        player = Player(name_holder[0], name_holder[1], age, 25, position)
+        player_controller.create_player(player)
+        print(player)
 
 # for each player in the batting table, parse it
 for row in rows:
@@ -41,9 +50,7 @@ for row in rows:
         position = positionRow.contents[0].text
         # if the player is not a pitcher, process it
         if position != 'P' and position != None:
-            print("Position: ")
-            print(position)
+            # print("Position: ")
+            # print(position)
             create_player_stats(row) 
 
-
-# printStat()

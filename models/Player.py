@@ -14,11 +14,18 @@ class Player(Base):
     first_name: Mapped[str] = mapped_column(String(255))
     last_name: Mapped[str] = mapped_column(String(255))
     age: Mapped[int] = mapped_column(Integer)
-    team_id: Mapped[int] = mapped_column(Integer, ForeignKey("team.id"))
+    team_id: Mapped[int] = mapped_column(Integer)
     position: Mapped[str] = mapped_column(String(255))
 
-    def __init__(self, player) -> None:
-        self.player = player
+    def __init__(self, first_name, last_name, age, team_id, position) -> None:
+        self.first_name = first_name
+        self.last_name = last_name
+        self.age = age
+        self.team_id = team_id
+        self.position = position
+    
+    def __repr__(self) -> str:
+        return f"Player(first_name={self.first_name}, last_name={self.last_name}, age={self.age}, team_id={self.team_id}, position={self.position})"
 
 
 
