@@ -5,7 +5,8 @@ class PlayerController:
         print("Player Controller")
     
     def db_insert(self, player):
-        with self.session as session:
+        with self.session.begin() as session:
+            print(session)
             if player != None:
                 session.add(player)
                 session.commit()

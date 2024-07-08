@@ -15,10 +15,8 @@ positions = {
 def convertPositionToEnum(position):
     if position: 
         cleaned_position = position.upper()
-    if cleaned_position in positions:
-        return positions[cleaned_position]
-
-def seed_teams(engine, teams):
-   with engine.connect() as connection:
-        connection.execute
+        if cleaned_position in positions:
+            return positions[cleaned_position]
+    else: 
+        return 0
 

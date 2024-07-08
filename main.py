@@ -4,7 +4,6 @@ from dotenv import dotenv_values
 from models.Player import Player
 from PlayerController import PlayerController
 from db import Session
-
 session = Session()
 
 config = dotenv_values(".env") 
@@ -39,6 +38,7 @@ def create_player_stats(row):
     position = positionRow.contents[0].text
     if name_holder:
         player = Player(name_holder[0], name_holder[1], age, 25, position)
+        print(player)
         player_controller.create_player(player)
         print(player)
 

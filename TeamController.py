@@ -9,6 +9,8 @@ class TeamController:
             if team != None:
                 session.add(team)
                 session.commit()
+                session.expunge_all()
+                session.close()
 
     def create_team(self, team):
         self.db_insert(team) 
