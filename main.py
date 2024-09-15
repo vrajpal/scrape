@@ -17,8 +17,14 @@ page = requests.get(f"https://www.baseball-reference.com/teams/SEA/{config['SEAS
 soup = BeautifulSoup(page.content, 'lxml')
 # grab table with hitting stats
 all_team_batting = soup.find("table", {"id": "team_batting"})
-tbody = all_team_batting.find("tbody")
-rows = tbody.find_all('tr')
+if all_team_batting:
+    tbody = all_team_batting.find("tbody")
+    if isinstance(tbody, BeautifulSoup):
+        rows = tbody.find_all('tr')
+    else:
+        rows = []
+else:
+    rows = []
 
 # the headers for the batting table in Baseball Ref, remove player as its method for grabbing name is inconsistent 
 batting = {"age", "G", "AB", "R", "H", "2B", "3B", "HR", "RBI", "SB", 
