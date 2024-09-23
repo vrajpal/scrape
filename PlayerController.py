@@ -17,7 +17,7 @@ class PlayerController:
             print(f"Error occurred: {e}")
     
     def create_player(self, player):
-        # breakpoint()
+        breakpoint()
         self.session.add(player)
         self.db_insert(player)
         print(player.__tablename__)

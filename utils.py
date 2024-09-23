@@ -12,6 +12,13 @@ positions = {
     "OF": 12
 }
 
+# the headers for the batting table in Baseball Ref, remove player as its method for grabbing name is inconsistent 
+batting = {"age", "G", "AB", "R", "H", "2B", "3B", "HR", "RBI", "SB", 
+           "CS", "BB", "SO", "batting_avg", "onbase_perc", "slugging_perc", "onbase_plus_slugging", 
+           "onbase_plus_slugging_plus", "TB", "GIDP", "HBP", "SH", "SF", "IBB"}
+
+
+
 def convertPositionToEnum(position):
     if position: 
         cleaned_position = position.upper()
