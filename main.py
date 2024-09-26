@@ -12,7 +12,7 @@ from utils import batting
 session = Session()
 
 config = dotenv_values(".env")
-player_controller = PlayerController(session)
+player_controller = PlayerController()
 
 print(config)
 # grab html of the mariners season page
@@ -74,7 +74,6 @@ def create_player_stats(row):
 # for each player in the batting table, parse it
 for row in rows:
     # find the data cell with player in it
-    breakpoint()
     positionRow = row.find("td", {"data-stat": "pos"})
     if positionRow != None:
         position = positionRow.contents[0].text

@@ -1,4 +1,4 @@
-from dotenv imnport dotenv
+from dotenv import dotenv
 from sqlalchemy import create_engine, text
 from db import Session
 
