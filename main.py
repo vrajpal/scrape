@@ -28,6 +28,7 @@ rows = all_team_batting(soup)
 
 ########################EXTRACT#########################################
 
+
 # given a row in the hitting table, find each batting stat and save to a dictionary
 def create_player_stats(row):
     """
@@ -65,6 +66,7 @@ def create_player_stats(row):
         print(player)
         player_controller.create_player(player)
         print(player)
+
 
 ################################################################################################
 

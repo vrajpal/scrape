@@ -1,4 +1,8 @@
-from parse import create_player_row as create_player_stats
+from parse import create_player_row
+from PlayerController import PlayerController
+
+player_controller = PlayerController()
+
 
 def get_player_row(rows):
     for row in rows:
@@ -11,4 +15,4 @@ def get_player_row(rows):
             if position !=  "P" and position is not None:
                 # print("Position: ")
                 # print(position)
-                create_player_stats(row)
+                create_player_row.create_player_stats(row)
