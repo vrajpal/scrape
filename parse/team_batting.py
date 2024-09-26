@@ -1,7 +1,6 @@
 from bs4 import BeautifulSoup, Tag
 
 def all_team_batting(soup):
-    breakpoint()
     all_team_batting = soup.find("table", {"id": "team_batting"})
     if all_team_batting:
         tbody = all_team_batting.find("tbody")
