@@ -2,5 +2,7 @@ multi word teams cut off
 eg.) San Francisco (missing Giants)
 - Toronto Blue (Missing Jays)
 
+for the create player test I need a sample row
+  - run the new flow with breakpoints and print a row
 
 

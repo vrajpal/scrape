@@ -1,5 +1,6 @@
 """requests libray to pull down baseball ref"""
 
+from contextlib import redirect_stdout
 import requests
 from dotenv import dotenv_values
 from models.Player import Player
@@ -26,7 +27,10 @@ soup = soup_the_page(page)
 # grab table with hitting stats and return list of rows
 rows = all_team_batting(soup)
 
-########################EXTRACT#########################################
+# generate test output
+# with open("./test_output.txt", "w") as f:
+#     with redirect_stdout(f):
+#         print(rows)
 
 
 # given a row in the hitting table, find each batting stat and save to a dictionary
@@ -68,17 +72,15 @@ def create_player_stats(row):
         print(player)
 
 
-################################################################################################
-
-
 # for each player in the batting table, parse it
 for row in rows:
+    breakpoint()
     # find the data cell with player in it
     positionRow = row.find("td", {"data-stat": "pos"})
-    if positionRow != None:
+    if positionRow is not None:
         position = positionRow.contents[0].text
         # if the player is not a pitcher, process it
-        if position != "P" and position != None:
+        if position != "P" and position is not None:
             # print("Position: ")
             # print(position)
             create_player_stats(row)

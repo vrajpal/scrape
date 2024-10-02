@@ -1,7 +1,13 @@
-from models import Player
+from PlayerController import PlayerController
+from models.Player import Player
 from utils import batting
+from dotenv import dotenv_values
 
-def create_player_stats(row, player_controller):
+config = dotenv_values(".env")
+
+
+def create_player(row, position):
+    player_controller = PlayerController()
     player_row = {}
     name = row.find("td", {"data-stat": "player"}).contents[0].text
     for stat in batting:
@@ -9,10 +15,9 @@ def create_player_stats(row, player_controller):
         player_row[stat] = value
     print(name)
     name_holder = name.split()
-    age = row.find("td", {"data-stat": "age"}).contents 
-    position = positionRow.contents[0].text
+    age = row.find("td", {"data-stat": "age"}).contents
     if name_holder:
+        # need to figure out how to pass team id
         player = Player(name_holder[0], name_holder[1], age, 1, position)
         print(player)
         player_controller.create_player(player)
-        print(player)

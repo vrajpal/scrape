@@ -1,4 +1,3 @@
-from parse import create_player_row
 from PlayerController import PlayerController
 
 player_controller = PlayerController()
@@ -12,7 +11,8 @@ def get_player_row(rows):
         if position_row is not None:
             position = position_row.contents[0].text
             # if the player is not a pitcher, process it
-            if position !=  "P" and position is not None:
+            if position != "P" and position is not None:
                 # print("Position: ")
                 # print(position)
-                create_player_row.create_player_stats(row)
+                return (row, position)
+                # create_player_row.create_player_stats(row)
