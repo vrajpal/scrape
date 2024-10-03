@@ -1,11 +1,26 @@
+"""
+Database configuration module.
+"""
+
 from dotenv import dotenv_values
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 
-config = dotenv_values(".env")
-connection_string = f"""mysql+pymysql://{config['MYSQL_USERNAME']}:{config['MYSQL_PASSWORD']}@{config['MYSQL_HOST']}:{config['MYSQL_PORT']}/{config['DATABASE_NAME']}"""
+required_keys = ['MYSQL_USERNAME', 'MYSQL_PASSWORD', 'MYSQL_HOST', 'MYSQL_PORT', 'DATABASE_NAME']
+missing_keys = [key for key in required_keys if key not in (dotenv_values(".env"))]
+
+if missing_keys:
+    raise KeyError(f"Missing required environment variables: {', '.join(missing_keys)}")
+
+connection_string = (
+    f"mysql+pymysql://{(dotenv_values(".env"))['MYSQL_USERNAME']}:"
+    f"{(dotenv_values(".env"))['MYSQL_PASSWORD']}@"
+    f"{(dotenv_values(".env"))['MYSQL_HOST']}:"
+    f"{(dotenv_values(".env"))['MYSQL_PORT']}/"
+    f"{(dotenv_values(".env"))['DATABASE_NAME']}"
+)
 
 # Create the database engine
 engine = create_engine(connection_string, echo=True)
