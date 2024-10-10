@@ -64,9 +64,9 @@ def create_player_stats(row):
     print(name)
     name_holder = name.split()
     age = row.find("td", {"data-stat": "age"}).contents
-    position = positionRow.contents[0].text
+    player_position = position_row.contents[0].text
     if name_holder:
-        player = Player(name_holder[0], name_holder[1], age, 1, position)
+        player = Player(name_holder[0], name_holder[1], age, 1, player_position)
         print(player)
         player_controller.create_player(player)
         print(player)
@@ -76,11 +76,9 @@ def create_player_stats(row):
 for row in rows:
     breakpoint()
     # find the data cell with player in it
-    positionRow = row.find("td", {"data-stat": "pos"})
-    if positionRow is not None:
-        position = positionRow.contents[0].text
+    position_row = row.find("td", {"data-stat": "pos"})
+    if position_row is not None:
+        position = position_row.contents[0].text
         # if the player is not a pitcher, process it
         if position != "P" and position is not None:
-            # print("Position: ")
-            # print(position)
             create_player_stats(row)
